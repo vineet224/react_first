@@ -10,6 +10,7 @@ function Welcome(props) {
     return(<h2> No task to show </h2>)
   }
   return(<h2> List of task</h2>)
+  
 }
 
 class Todo1 extends React.Component {

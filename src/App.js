@@ -5,13 +5,16 @@ import About from './components/About'
 import Home from './components/Home'
 import {useState,useEffect} from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import {QueryClientProvider, QueryClient} from 'react-query'
 
+const queryClient = new QueryClient()
 
 
 function App() {
 
 
   return (
+    <QueryClientProvider client={queryClient}>
     <Router>
     <div className="App">
     <div className='nav-bar'>
@@ -25,6 +28,7 @@ function App() {
       <Main/>
     </div>
     </Router>
+    </QueryClientProvider>
   );
 }
 

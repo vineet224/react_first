@@ -4,9 +4,20 @@ import '../App.css';
 import Todo1 from './Todo1';
 import Todo2 from './Todo2';
 import { useState, useEffect } from 'react'
+import {useQuery} from 'react-query'
 
+
+
+const fetchpalnet= async () =>{
+  const res=await fetch('https://swapi.dev/api/planets/1/')
+  const data= await res.json()
+  console.log(data)
+  return data
+}
 
 function Main() {
+
+
   const [showAddTask, setShowAddTask] = useState(false)
   const [tasks, setTasks] = useState([])
   const [value ,setValue]=useState('')
@@ -15,7 +26,8 @@ function Main() {
   const [count, setCount]= useState(0)
   const [completedtasks, setCompletedtasks]= useState([])
 
-
+  const {data, status} =useQuery('posts',fetchpalnet);
+  console.log(data)
 
   useEffect(()=>{
     const getTasks= async ()=>{
@@ -110,6 +122,7 @@ function Main() {
   }
 
   return (
+    
     <div className="Main">
       <h4 className='Header'> Task Tracker </h4>
       <Todo1 value={value} day={day} tasks={tasks} id={id}
@@ -119,6 +132,7 @@ function Main() {
       <Todo2 completedtasks={completedtasks} 
       onDelete={onDelete}/>
     </div>
+
   );
 }
 
