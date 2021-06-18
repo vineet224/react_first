@@ -4,9 +4,19 @@ import '../App.css';
 import Todo1 from './Todo1';
 import Todo2 from './Todo2';
 import { useState, useEffect } from 'react'
+import {useMutation, useQuery} from 'react-query'
 
+
+const fetchTasks= async () =>{
+  const res=await fetch('http://localhost:5000/tasks')
+  const data= await res.json()
+  console.log("in fetch",data)
+  return data
+}
 
 function Main() {
+
+
   const [showAddTask, setShowAddTask] = useState(false)
   const [tasks, setTasks] = useState([])
   const [value ,setValue]=useState('')
@@ -15,23 +25,26 @@ function Main() {
   const [count, setCount]= useState(0)
   const [completedtasks, setCompletedtasks]= useState([])
 
+  const {data, status} =useQuery('posts',fetchTasks,{onSuccess: (data)=>{
+    setTasks(data)
+    console.log("here on sucess")
+  }});
+  console.log("here in fun ",data)
 
-
-  useEffect(()=>{
+  const {mutateAsync: delet}=useMutation((id)=>{onClick(id)},{onSuccess: ()=>{console.log("on delte succes")}});
+  const {mutateAsync: addtt}=useMutation((task)=>{addTask(task)},{onSuccess: ()=>{console.log("add query")}});
+  /*useEffect(()=>{
     const getTasks= async ()=>{
       const tasksfromserver= await fetchTasks()
       setTasks(tasksfromserver)
     }
     getTasks()
-  },[])
+    //console.log("here in useeffect",data)
+    setTasks([])
+  },[])*/
 
 
-  const fetchTasks= async () =>{
-    const res=await fetch('http://localhost:5000/tasks')
-    const data= await res.json()
-    console.log(data)
-    return data
-  }
+  
 
   const onClick= async (i) =>{
 
@@ -44,7 +57,7 @@ function Main() {
     console.dir(i)
 
     var array=tasks.filter((task)=>{return(task.id!==i)})
-    setTasks(array)
+    //setTasks(array)
   }
 
   function onComplete(i){
@@ -82,7 +95,7 @@ function Main() {
     })
 
     const data= await res.json()
-    setTasks([...tasks,data])
+    //setTasks([...tasks,data])
   }
   function handleSubmit(event) {
     /*alert('A name was submitted: ' + this.state.value);
@@ -102,7 +115,7 @@ function Main() {
     console.dir(tasks)*/
     
     var obj={value: value, day: day}
-    addTask(obj)
+    addtt(obj)
     setValue('')
     setDay('')
     alert('list is '+ tasks)
@@ -110,15 +123,17 @@ function Main() {
   }
 
   return (
+    
     <div className="Main">
       <h4 className='Header'> Task Tracker </h4>
       <Todo1 value={value} day={day} tasks={tasks} id={id}
-      onClick={onClick} handleChange={handleChange}
+      onClick={delet} handleChange={handleChange}
       handleChange2={handleChange2} handleSubmit={handleSubmit}
       onComplete={onComplete}/>
       <Todo2 completedtasks={completedtasks} 
       onDelete={onDelete}/>
     </div>
+
   );
 }
 
