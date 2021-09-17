@@ -1,29 +1,9 @@
 {
   "tasks": [
     {
-      "value": "dsfds",
-      "day": "asdas",
-      "id": 15
-    },
-    {
-      "value": "adfa",
-      "day": "sdcvzx",
-      "id": 17
-    },
-    {
-      "value": "vssdf",
-      "day": "sefds",
-      "id": 18
-    },
-    {
       "value": "hello",
       "day": "hello",
       "id": 19
-    },
-    {
-      "value": "new task",
-      "day": "15 june",
-      "id": 20
     }
   ],
   "posts": [
